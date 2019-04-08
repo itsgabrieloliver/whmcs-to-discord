@@ -34,7 +34,11 @@ client.on('message', async msg => {
 
   if (commandIs('verify', msg)) {
     if (msg.guild) {
-      msg.channel.send('<:errorhex:535607623710408734> You need to go into my DMs to verify this.');
+        msg.channel.send('<:infohex:535607624608251904> Please check direct messages I have sent you instructions.');
+        msg.author.send('Welcome to the CrypticNode customer verification setup.' + '\n' + 
+        '**Step one:**' + 'INFO GOES HERE' + '\n' + 
+        '**Step two:**' + 'INFO GOES HERE' + '\n' +
+        '**Step three:**' + 'INFO GOES HERE');
       return;
     }
 
