@@ -7,12 +7,12 @@ const whmcs = new WHMCS({
 });
 const client = new Discord.Client();
 const settings = require("./config.json")
-var temp = {}
+var temp = {};
 var date = new Date();
 var current_date = date.getUTCDate();
-var current_time = `${date.getUTCHours()}:${date.getUTCMinutes()}`
+var current_time = `${date.getUTCHours()}:${date.getUTCMinutes()}`;
 
-var prefix = 'cn/'
+var prefix = 'cn/';
 
 function commandIs(str, msg) {
   return msg.content.toLowerCase().startsWith(prefix + str);
@@ -20,7 +20,7 @@ function commandIs(str, msg) {
 
 client.on('ready', () => {
     console.info(`\nLogged in as ${client.user.tag} as of ${current_time}.`);
-    client.user.setActivity("Cryptic Node Bot | cn/verify");
+    client.user.setActivity("crypticnode.host | cn/help");
   });
 
 client.on('message', async msg => {
