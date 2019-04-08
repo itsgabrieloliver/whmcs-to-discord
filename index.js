@@ -6,11 +6,7 @@ const Discord = require("discord.js");
 //  serverUrl: ''
 // });
 const client = new Discord.Client();
-<<<<<<< HEAD
 const settings = require("./config.json");
-=======
-const settings = require("./config.json")
->>>>>>> 042da789051a31d5668a800aa5763bbd4c687ac5
 var temp = {};
 var date = new Date();
 var current_date = date.getUTCDate();
@@ -43,4 +39,4 @@ client.on('message', async msg => {
 
 }); // End of stuff
 
-client.login(config.token);
+client.login(settings.token);
