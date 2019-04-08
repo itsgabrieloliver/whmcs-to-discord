@@ -47,7 +47,7 @@ client.on('message', async msg => {
     var collect;
     await msg.author.dmChannel.awaitMessages(filter, {max: 1, time: 300000}).then(collected => collect = collected.array());
     if (!collect[0]) {
-      msg.author.send('You were inactive for over 5 minutes, so we cancelled your verification');
+      msg.author.send("You were inactive or didn't send an email for over 5 minutes, so we cancelled your verification");
       return;
     }
     console.log(collect[0].cleanContent);
