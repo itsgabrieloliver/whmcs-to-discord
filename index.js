@@ -6,13 +6,13 @@ const whmcs = new WHMCS({
   serverUrl: ''
 });
 const client = new Discord.Client();
-const settings = require("./config.json")
-var temp = {}
+const settings = require("./config.json");
+var temp = {};
 var date = new Date();
 var current_date = date.getUTCDate();
-var current_time = `${date.getUTCHours()}:${date.getUTCMinutes()}`
+var current_time = `${date.getUTCHours()}:${date.getUTCMinutes()}`;
 
-var prefix = 'cn/'
+var prefix = 'cn/';
 
 function commandIs(str, msg) {
   return msg.content.toLowerCase().startsWith(prefix + str);
@@ -29,6 +29,12 @@ client.on('message', async msg => {
   if (commandIs('ping', msg)) {
     const m = await msg.channel.send(":ping_pong: Pinging...");
     m.edit(`:ping_pong: **Bot** ${m.createdTimestamp - msg.createdTimestamp}ms | **API** ${Math.round(client.ping)}ms`);
+  }
+
+  if (commandIs('verify', msg)) {
+    if (msg.guild) {
+      msg.channel.send('<:errorhex:535607623710408734> You need to go into my DMs to verify this.');
+    }
   }
 
 }); // End of stuff
