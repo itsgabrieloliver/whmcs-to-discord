@@ -33,4 +33,4 @@ client.on('message', async msg => {
 
 }); // End of stuff
 
-client.login('config.token');
+client.login(config.token);
