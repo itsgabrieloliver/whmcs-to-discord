@@ -40,11 +40,16 @@ client.on('message', async msg => {
       .setAuthor(msg.author.username, msg.author.avatarURL)
       .addField('Verification', 'In order to verify that you are a customer, please type in your email that you used to sign up to the billing panel.')
       .setFooter('This expires in 5 minutes.')
+      .setColor('#5b94ef')
       .setTimestamp();
     await msg.author.send(embeded);
     const filter = m => m.content.includes('@');
     var collect;
     await msg.author.dmChannel.awaitMessages(filter, {max: 1, time: 300000}).then(collected => collect = collected.array());
+    if (!collect[0]) {
+      msg.author.send('You were inactive for over 5 minutes, so we cancelled your verification');
+      return;
+    }
     console.log(collect[0].cleanContent);
   }
 
