@@ -1,12 +1,16 @@
 const Discord = require("discord.js");
-const whmcs = new WHMCS({
-  username: '',
-  password: '',
-  apiKey: '',
-  serverUrl: ''
-});
+// const whmcs = new WHMCS({
+//  username: '',
+//  password: '',
+//  apiKey: '',
+//  serverUrl: ''
+// });
 const client = new Discord.Client();
+<<<<<<< HEAD
 const settings = require("./config.json");
+=======
+const settings = require("./config.json")
+>>>>>>> 042da789051a31d5668a800aa5763bbd4c687ac5
 var temp = {};
 var date = new Date();
 var current_date = date.getUTCDate();
@@ -20,7 +24,7 @@ function commandIs(str, msg) {
 
 client.on('ready', () => {
     console.info(`\nLogged in as ${client.user.tag} as of ${current_time}.`);
-    client.user.setActivity("Cryptic Node Bot | cn/verify");
+    client.user.setActivity("crypticnode.host | cn/help");
   });
 
 client.on('message', async msg => {
