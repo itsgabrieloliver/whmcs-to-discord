@@ -1,4 +1,10 @@
 const Discord = require("discord.js");
+const whmcs = new WHMCS({
+  username: '',
+  password: '',
+  apiKey: '',
+  serverUrl: ''
+});
 const client = new Discord.Client();
 var temp = {}
 var date = new Date();
