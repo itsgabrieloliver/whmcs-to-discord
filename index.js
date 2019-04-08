@@ -1,10 +1,10 @@
 const Discord = require("discord.js");
-// const whmcs = new WHMCS({
-//  username: '',
-//  password: '',
-//  apiKey: '',
-//  serverUrl: ''
-// });
+/* const whmcs = new WHMCS({
+  username: '',
+  password: '',
+  apiKey: '',
+  serverUrl: ''
+ }); */
 const client = new Discord.Client();
 const config = require("./config.json");
 var temp = {};
@@ -35,6 +35,10 @@ client.on('message', async msg => {
     if (msg.guild) {
       msg.channel.send('<:errorhex:535607623710408734> You need to go into my DMs to verify this.');
     }
+  }
+
+  if (commandIs('help', msg)) {
+    
   }
 
 }); // End of stuff
