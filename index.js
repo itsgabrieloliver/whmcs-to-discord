@@ -67,6 +67,6 @@ client.on('message', async msg => {
     return;
   }
 
-}); // End of stuff
+});
 
 client.login(config.token);
