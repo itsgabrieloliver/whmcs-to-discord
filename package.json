@@ -1,0 +1,22 @@
+{
+  "name": "crypticnode-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HexDevOfficial/CrypticNode-Bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HexDevOfficial/CrypticNode-Bot/issues"
+  },
+  "homepage": "https://github.com/HexDevOfficial/CrypticNode-Bot#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  }
+}
