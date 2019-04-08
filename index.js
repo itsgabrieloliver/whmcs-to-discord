@@ -34,14 +34,18 @@ client.on('message', async msg => {
 
   if (commandIs('verify', msg)) {
     if (msg.guild) {
-        msg.channel.send('<:infohex:535607624608251904> Please check direct messages I have sent you instructions.');
-        msg.author.send('Welcome to the CrypticNode customer verification setup.' + '\n' + 
-        '**Step one:**' + 'INFO GOES HERE' + '\n' + 
-        '**Step two:**' + 'INFO GOES HERE' + '\n' +
-        '**Step three:**' + 'INFO GOES HERE');
-      return;
+        await msg.channel.send('<:infohex:535607624608251904> Please check direct messages I have sent you instructions.');
     }
-
+    const embeded = new Discord.RichEmbed()
+      .setAuthor(msg.author.username, msg.author.avatarURL)
+      .addField('Verification', 'In order to verify that you are a customer, please type in your email that you used to sign up to the billing panel.')
+      .setFooter('This expires in 5 minutes.')
+      .setTimestamp();
+    await msg.author.send(embeded);
+    const filter = m => m.content.includes('@');
+    var collect;
+    await msg.author.dmChannel.awaitMessages(filter, {max: 1, time: 300000}).then(collected => collect = collected.array());
+    console.log(collect[0].cleanContent);
   }
 
   if (commandIs('help', msg)) {
