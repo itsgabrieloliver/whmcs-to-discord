@@ -66,7 +66,6 @@ client.on('message', async msg => {
     msg.channel.send(userinfoembed);
     return;
   }
-
 });
 
 client.login(config.token);
