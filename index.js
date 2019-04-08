@@ -1,10 +1,10 @@
 const Discord = require("discord.js");
-const whmcs = new WHMCS({
-  username: '',
-  password: '',
-  apiKey: '',
-  serverUrl: ''
-});
+// const whmcs = new WHMCS({
+//  username: '',
+//  password: '',
+//  apiKey: '',
+//  serverUrl: ''
+// });
 const client = new Discord.Client();
 const settings = require("./config.json")
 var temp = {};
