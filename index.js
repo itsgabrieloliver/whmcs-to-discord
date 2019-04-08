@@ -38,7 +38,33 @@ client.on('message', async msg => {
   }
 
   if (commandIs('help', msg)) {
-    
+    const helpembed = new Discord.RichEmbed()
+      .setAuthor(msg.author.username, msg.author.avatarURL)
+      .setDescription("This will display a list of the current commands.")
+      .setColor("RANDOM")
+      .addField("General", "**cn/help** - " + "this will bring up the help menu." + "\n" + "**cn/userinfo** - " + "brings up info about the user." + "\n" +
+      "**cn/report** - " + "reports a user to an admin." + "\n" + "**cn/verify - **" + "if completed you will get client discord tag." + "\n")
+      
+      /*.addField("Administration", "**;kick** - " + "kicks a user." + "\n" + "**;ban** - " + "bans a user." + "\n" + "**;warn** - " +
+          "warns a user." + "\n" + "**;clear** - " + "clears the chat.")*/
+      .setFooter("Requested by " + msg.author.username)
+      .setTimestamp()
+
+      msg.channel.send(helpembed);
+      return;
+  }
+
+  if (commandIs('userinfo', msg)) {
+    var userinfoembed = new Discord.RichEmbed()
+      .setAuthor(msg.author.username, msg.author.avatarURL)
+      .setDescription("This displays some basic information regarding your user.")
+      .setColor("RANDOM")
+      .addField("General", "**Username** - " + msg.author.username + "\n" + "**ID** - " + msg.author.id, true)
+      .addField("Technical", "**Permissions** - " + msg.member.permissions + "\n" + "**Kickable?** - " + msg.member.kickable, true)
+      .setFooter("Requested by " + msg.author.username)
+      .setTimestamp()
+    msg.channel.send(userinfoembed);
+    return;
   }
 
 }); // End of stuff
