@@ -6,6 +6,7 @@ const whmcs = new WHMCS({
   serverUrl: ''
 });
 const client = new Discord.Client();
+const settings = require("./config.json")
 var temp = {}
 var date = new Date();
 var current_date = date.getUTCDate();
@@ -32,4 +33,4 @@ client.on('message', async msg => {
 
 }); // End of stuff
 
-client.login('NTY0NjA1MDkxNjk3MzkzNjY0.XKqTgA.ZaFrcrv0yuViYh4I1Eqe8ScxcAM');
+client.login('config.token');
