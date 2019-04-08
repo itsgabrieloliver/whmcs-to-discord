@@ -1,10 +1,11 @@
 const Discord = require("discord.js");
-/* const whmcs = new WHMCS({
-  username: '',
-  password: '',
-  apiKey: '',
-  serverUrl: ''
- }); */
+const WHMCS = require("whmcs");
+const whmcs = new WHMCS({
+  username: 'crypticnodebot',
+  password: '213b1228250c04bc77b351182c0b3abd',
+  apiKey: '56oCyD52n7hDVLrg2pkYKkPOEJjHPdim',
+  serverUrl: 'https://payments.crypticnode.host/includes/api'
+});
 const client = new Discord.Client();
 const config = require("./config.json");
 var temp = {};
@@ -34,7 +35,9 @@ client.on('message', async msg => {
   if (commandIs('verify', msg)) {
     if (msg.guild) {
       msg.channel.send('<:errorhex:535607623710408734> You need to go into my DMs to verify this.');
+      return;
     }
+
   }
 
   if (commandIs('help', msg)) {
