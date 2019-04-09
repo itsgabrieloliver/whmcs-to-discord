@@ -1,11 +1,7 @@
 const Discord = require("discord.js");
-const WHMCS = require("whmcs");
-const whmcs = new WHMCS({
-  username: 'crypticnodebot',
-  password: '213b1228250c04bc77b351182c0b3abd',
-  apiKey: '56oCyD52n7hDVLrg2pkYKkPOEJjHPdim',
-  serverUrl: 'https://payments.crypticnode.host/includes/api'
-});
+const WHMCS = require("whmcs-js");
+const whmcsconfig = { apiKey: '56oCyD52n7hDVLrg2pkYKkPOEJjHPdim', serverUrl: 'https://payments.crypticnode.host/includes/api' };
+const whmcsClient = new WHMCS(whmcsconfig);
 const client = new Discord.Client();
 const config = require("./config.json");
 var temp = {};
@@ -50,7 +46,9 @@ client.on('message', async msg => {
       msg.author.send("You were inactive or didn't send an email for over 5 minutes, so we cancelled your verification");
       return;
     }
+    var test = whmcsClient.getContacts({email: collect[0].cleanContent})
     console.log(collect[0].cleanContent);
+    console.dir(test);
   }
 
   if (commandIs('help', msg)) {
