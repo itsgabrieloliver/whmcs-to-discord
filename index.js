@@ -1,9 +1,11 @@
 const Discord = require("discord.js");
+const fs = require("fs");
 const WHMCS = require("whmcs");
 const whmcsconfig = { username: 'crypticnodebot', password: '213b1228250c04bc77b351182c0b3abd', apiKey: '56oCyD52n7hDVLrg2pkYKkPOEJjHPdim', serverUrl: 'https://payments.crypticnode.host/includes/api.php' };
 const whmcsClient = new WHMCS(whmcsconfig);
 const client = new Discord.Client();
 const config = require("./config.json");
+var perm = {};
 var temp = {};
 var date = new Date();
 var current_date = date.getUTCDate();
@@ -14,6 +16,21 @@ var prefix = 'cn/';
 function commandIs(str, msg) {
   return msg.content.toLowerCase().startsWith(prefix + str);
 }
+
+function load() {
+  var _perm = fs.readFileSync('data.json', 'utf8');
+  perm = JSON.parse(_perm);
+}
+
+function save() {
+  var _perm = JSON.stringify(perm);
+  fs.writeFileSync('data.json', _perm);
+}
+
+client.on('ready', async () => {
+  await load();
+  console.info(`\nLogged in as ${client.user.tag} as of ${current_time}.`);
+});
 
 client.on('ready', () => {
   client.user.setActivity("Checking... | crypticnode.host | cn/help");
