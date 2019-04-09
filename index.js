@@ -16,9 +16,21 @@ function commandIs(str, msg) {
 }
 
 client.on('ready', () => {
-    console.info(`\nLogged in as ${client.user.tag} as of ${current_time}.`);
+  client.user.setActivity("Checking... | crypticnode.host | cn/help");
+  client.user.setStatus('idle');
+  setInterval(function(){
+  client.user.setActivity("Checking... | crypticnode.host | cn/help");
+  whmcsClient.support.getTickets(function(err) {
+    if (err) {
+      client.user.setStatus('dnd');
+      client.user.setActivity("Partial Outage | crypticnode.host | cn/help");
+      return;
+    }
     client.user.setActivity("crypticnode.host | cn/help");
+    client.user.setStatus('online');
   });
+  }, 10000);
+});
 
 client.on('message', async msg => {
   var args = msg.content.split(/[ ]+/);
