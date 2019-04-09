@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const WHMCS = require("whmcs-js");
-const whmcsconfig = { apiKey: '56oCyD52n7hDVLrg2pkYKkPOEJjHPdim', serverUrl: 'https://payments.crypticnode.host/includes/api' };
+const WHMCS = require("whmcs");
+const whmcsconfig = { username: 'crypticnodebot', password: '213b1228250c04bc77b351182c0b3abd', apiKey: '56oCyD52n7hDVLrg2pkYKkPOEJjHPdim', serverUrl: 'https://payments.crypticnode.host/includes/api.php' };
 const whmcsClient = new WHMCS(whmcsconfig);
 const client = new Discord.Client();
 const config = require("./config.json");
@@ -46,9 +46,21 @@ client.on('message', async msg => {
       msg.author.send("You were inactive or didn't send an email for over 5 minutes, so we cancelled your verification");
       return;
     }
-    var test = whmcsClient.getContacts({email: collect[0].cleanContent})
+    whmcsClient.customers.getContacts({email: collect[0].cleanContent}, function(err, data) {
+      console.log(data);
+      console.dir(data);
+      if (err) {
+        console.error('ERROR WHILES ATTEMPTING TO CONNECT TO WHMCS\n' + err);
+        const embeded = new Discord.RichEmbed()
+          .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to get your contact.\nIt's possible you typed your email wrong, please retry.")
+          .setFooter('If this error continues to show up, contact SysAdmin or Management.')
+          .setColor('#f4424b')
+          .setTimestamp();
+        msg.author.send(embeded);
+        return;
+      }
+    });
     console.log(collect[0].cleanContent);
-    console.dir(test);
   }
 
   if (commandIs('help', msg)) {
