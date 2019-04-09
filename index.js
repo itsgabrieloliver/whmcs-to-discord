@@ -81,6 +81,10 @@ client.on('message', async msg => {
   }
 
   if (commandIs('userinfo', msg)) {
+    if (!msg.guild) {
+      msg.channel.send("<:warninghex:535607627045142528> It appears you're not typing in CrypticNode's Discord. This command will not work unless you're typing in it.");
+      return;
+    }
     var userinfoembed = new Discord.RichEmbed()
       .setAuthor(msg.author.username, msg.author.avatarURL)
       .setDescription("This displays some basic information regarding your user.")
