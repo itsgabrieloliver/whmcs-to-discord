@@ -61,7 +61,8 @@ client.on('message', async msg => {
     if (msg.guild) {
         await msg.channel.send('<:infohex:535607624608251904> Please check direct messages I have sent you instructions.');
     }
-    var verifynum = Math.round(Math.random()) * 999999
+    var verifynuminte = Math.round(Math.random()*999999);
+    var verifynum = verifynuminte.toString();
     const embeded = new Discord.RichEmbed()
       .setAuthor(msg.author.username, msg.author.avatarURL)
       .addField('Verification', 'In order to verify that you are a customer, please send a ticket to the **Verification** Department with the code:\n`' + verifynum + '`\nThen react to this message with a <:okhex:535607625493118986>')
@@ -73,13 +74,12 @@ client.on('message', async msg => {
     const filter = (reaction) => reaction.emoji.id === '535607625493118986'
     var collect;
     await m.awaitReactions(filter, {max: 2, time: 300000}).then(collected => collect = collected.array());
-    if (!collect[1]) {
-      msg.author.send("You were inactive or didn't send an email for over 5 minutes, so we cancelled your verification");
+    if (!collect[0]) {
+      msg.author.send("You were inactive or didn't send a ticket for over 5 minutes, so we cancelled your verification");
       return;
     }
-    whmcsClient.customers.getTickets('40', function(err, data) {
+    whmcsClient.support.getTickets(async function(err, tickets) {
       // {email: collect[0].cleanContent}
-      console.log(data);
       if (err) {
         console.error('ERROR WHILES ATTEMPTING TO CONNECT TO WHMCS\n' + err);
         const embeded = new Discord.RichEmbed()
@@ -90,18 +90,30 @@ client.on('message', async msg => {
         msg.author.send(embeded);
         return;
       }
-      if (data.numreturned == 0) {
+      tickett = tickets.tickets.ticket
+      console.log(tickett);
+      var clientid = 0
+      var i = 0
+      while (clientid == 0 || tickett.length <= i) {
+        if (tickett[i].deptid == 5) {
+          if (tickett[i].subject == verifynum) {
+            clientid = await tickett[i].userid;
+          }
+        }
+        i = i + 1
+      }
+      console.log(clientid);
+      if (clientid == 0) {
         const embeded = new Discord.RichEmbed()
-          .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to find your profile.\nIt's possible you typed your email wrong.")
+          .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to find your profile.\nDid you:\n- Put the code in the **SUBJECT** instead of the message?\n- Copy the correct code\n- Send to the Verification Department?")
           .setFooter('If this error continues to show up, contact SysAdmin or Management.')
           .setColor('#f4424b')
           .setTimestamp();
         msg.author.send(embeded);
         return;
       }
-      // use data pass this point
+      
     });
-    console.log(collect[0].cleanContent);
   }
 
   if (commandIs('help', msg)) {
