@@ -32,6 +32,7 @@ client.on('message', async msg => {
     if (msg.guild) {
         await msg.channel.send('<:infohex:535607624608251904> Please check direct messages I have sent you instructions.');
     }
+    var verifynum = Math.round(Math.random()) * 999999
     const embeded = new Discord.RichEmbed()
       .setAuthor(msg.author.username, msg.author.avatarURL)
       .addField('Verification', 'In order to verify that you are a customer, please send a ticket to the **Verification** Department with the code:\n`' + verifynum + '`\nThen react to this message with a <:okhex:535607625493118986>')
