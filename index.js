@@ -34,19 +34,20 @@ client.on('message', async msg => {
     }
     const embeded = new Discord.RichEmbed()
       .setAuthor(msg.author.username, msg.author.avatarURL)
-      .addField('Verification', 'In order to verify that you are a customer, please type in your email that you used to sign up to the billing panel.')
+      .addField('Verification', 'In order to verify that you are a customer, please send a ticket to the **Verification** Department with the code:\n`' + verifynum + '`\nThen react to this message with a <:okhex:535607625493118986>')
       .setFooter('This expires in 5 minutes.')
       .setColor('#5b94ef')
       .setTimestamp();
-    await msg.author.send(embeded);
-    const filter = m => m.content.includes('@');
+    m = await msg.author.send(embeded);
+    await m.react('535607625493118986');
+    const filter = (reaction) => reaction.emoji.id === '535607625493118986'
     var collect;
-    await msg.author.dmChannel.awaitMessages(filter, {max: 1, time: 300000}).then(collected => collect = collected.array());
-    if (!collect[0]) {
+    await m.awaitReactions(filter, {max: 2, time: 300000}).then(collected => collect = collected.array());
+    if (!collect[1]) {
       msg.author.send("You were inactive or didn't send an email for over 5 minutes, so we cancelled your verification");
       return;
     }
-    whmcsClient.customers.getContacts('40', function(err, data) {
+    whmcsClient.customers.getTickets('40', function(err, data) {
       // {email: collect[0].cleanContent}
       console.log(data);
       if (err) {
