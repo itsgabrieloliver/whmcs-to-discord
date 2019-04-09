@@ -46,19 +46,29 @@ client.on('message', async msg => {
       msg.author.send("You were inactive or didn't send an email for over 5 minutes, so we cancelled your verification");
       return;
     }
-    whmcsClient.customers.getContacts({email: collect[0].cleanContent}, function(err, data) {
+    whmcsClient.customers.getContacts('40', function(err, data) {
+      // {email: collect[0].cleanContent}
       console.log(data);
-      console.dir(data);
       if (err) {
         console.error('ERROR WHILES ATTEMPTING TO CONNECT TO WHMCS\n' + err);
         const embeded = new Discord.RichEmbed()
-          .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to get your contact.\nIt's possible you typed your email wrong, please retry.")
+          .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to connect to the payment panel.\nIt's possible it might be offline right now, or it might be down for maintenance.")
+          .setFooter('If this error continues to show up after 30 minutes, contact SysAdmin or Management.')
+          .setColor('#f4424b')
+          .setTimestamp();
+        msg.author.send(embeded);
+        return;
+      }
+      if (data.numreturned == 0) {
+        const embeded = new Discord.RichEmbed()
+          .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to find your profile.\nIt's possible you typed your email wrong.")
           .setFooter('If this error continues to show up, contact SysAdmin or Management.')
           .setColor('#f4424b')
           .setTimestamp();
         msg.author.send(embeded);
         return;
       }
+      // use data pass this point
     });
     console.log(collect[0].cleanContent);
   }
