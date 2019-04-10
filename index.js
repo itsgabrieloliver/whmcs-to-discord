@@ -26,9 +26,7 @@ function save() {
   var _perm = JSON.stringify(perm);
   fs.writeFileSync('data.json', _perm);
 }
-
 client.on('ready', async () => {
-  await load();
   console.info(`\nLogged in as ${client.user.tag} as of ${current_time}.`);
 });
 
@@ -49,6 +47,7 @@ client.on('ready', () => {
   }, 10000);
 });
 
+  await load();
 client.on('message', async msg => {
   var args = msg.content.split(/[ ]+/);
   
