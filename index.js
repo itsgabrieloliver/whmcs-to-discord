@@ -48,7 +48,28 @@ client.on('ready', () => {
   }, 10000);
 });
 
+client.on('ready', async () => {
   await load();
+  if (perm.statusonboot == false) {
+    console.log(perm);
+    console.log('Status on boot is off.');
+    var statusembed = new Discord.RichEmbed()
+      .setColor("#ff7f3f")
+      .addField("Status", "Status has been temporarily disabled.")
+      .setFooter("If this is not intended, contact SysAdmin")
+    client.channels.get(perm.statuschannel).fetchMessage(perm.statusmessage).then(msg => msg.edit(statusembed));
+    return;
+  } else {
+    // <a:loading:505383836172156948>
+    var statusembed = new Discord.RichEmbed()
+      .setColor("#7289DA")
+      .addField("Status", "<a:loading:505383836172156948> Loading Status...")
+      .setFooter("This will take only a few seconds")
+    client.channels.get(perm.statuschannel).fetchMessage(perm.statusmessage).then(msg => msg.edit(statusembed));
+  }
+
+});
+
 client.on('message', async msg => {
   var args = msg.content.split(/[ ]+/);
   
