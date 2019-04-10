@@ -91,8 +91,7 @@ client.on('message', async msg => {
         return;
       }
       tickett = tickets.tickets.ticket
-      console.log(tickett);
-      var clientid = 0
+      var clientid = 40
       var i = 0
       while (clientid == 0 || tickett.length <= i) {
         if (tickett[i].deptid == 5) {
@@ -102,7 +101,6 @@ client.on('message', async msg => {
         }
         i = i + 1
       }
-      console.log(clientid);
       if (clientid == 0) {
         const embeded = new Discord.RichEmbed()
           .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to find your profile.\nDid you:\n- Put the code in the **SUBJECT** instead of the message?\n- Copy the correct code\n- Send to the Verification Department?")
@@ -112,7 +110,43 @@ client.on('message', async msg => {
         msg.author.send(embeded);
         return;
       }
-      
+      whmcsClient.customers.getCustomer(clientid, async function(err, data) {
+        if (err) {
+          const embeded = new Discord.RichEmbed()
+            .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to connect to the payment panel.\nIt's possible it might be offline right now, or it might be down for maintenance.")
+            .setFooter('If this error continues to show up after 30 minutes, contact SysAdmin or Management.')
+            .setColor('#f4424b')
+            .setTimestamp();
+          msg.author.send(embeded);
+          return;
+        }
+        const embeded = new Discord.RichEmbed()
+          .addField(`Is this you, ${data.firstname}?`, `Full Name: ${data.fullname}\nEmail: ${data.email}\nPhone Number: ${data.phonenumberformatted}`)
+          .setFooter("If this isn't you please deny this and contact SysAdmin.")
+          .setColor('#5b94ef')
+          .setTimestamp();
+        var m = await msg.author.send(embeded);
+        await m.react('535607625493118986');
+        await m.react('535607623710408734');
+        const filter = (reaction) => reaction.emoji.id === '535607625493118986'|'535607623710408734'
+        await m.awaitReactions(filter, {max: 2, time: 30000}).then(collected => collect = collected.array());
+        console.log(collect);
+        var i = 1
+        if (!collect[1]) {
+          i = 0
+        }
+        if (collect[i].emoji.id == 535607625493118986) {
+          const embededed = new Discord.RichEmbed()
+            .addField(`Hello there, ${data.firstname}!`, `You've been successfully verified.`)
+            .setFooter("Your `Verified` Rank has been added.")
+            .setColor('#42f483')
+            .setTimestamp();
+          msg.author.send(embededed);
+        } else {
+          msg.channel.send("Our Auto-Verification system ran into an error and couldn't find you. Go ahead and open a ticket in the Verification Department, or ask on Discord to be added.");
+        }
+      });
+
     });
   }
 
@@ -148,6 +182,26 @@ client.on('message', async msg => {
       .setTimestamp()
     msg.channel.send(userinfoembed);
     return;
+  }
+
+  if (commandIs('setstatuspage', msg)) {
+    if (!msg.author.id == 189400912333111297) {
+      msg.channel.send("<:errorhex:535607623710408734> You don't have permission to use this command.");
+      return;
+    }
+    if (!args[1]) {
+      msg.channel.send("<:infohex:535607624608251904> Your Status page has been reset.");
+      return;
+    }
+    var servid = args[1].match(/\d/g);
+    servid = servid.join("");
+    perm.statuspage = servid;
+    var statusembed = new Discord.RichEmbed()
+      .setColor("#ff7f3f")
+      .addField("Status", "**Testing 1** - <:okhex:535607625493118986> - Online\n**Testing 2** - <:warninghex:535607627045142528> - Degraded Performance\n**Testing 3** - <:errorhex:535607623710408734> - Outage")
+      .setFooter("Refreshs every minute - TEST STATUS")
+    client.channels.get(perm.statuspage).send(statusembed);
+    save();
   }
 });
 
