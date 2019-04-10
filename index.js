@@ -221,10 +221,9 @@ client.on('message', async msg => {
     perm.statuschannel = servid;
     var statusembed = new Discord.RichEmbed()
       .setColor("#ff7f3f")
-      .addField("Status", "**Testing 1** - <:okhex:535607625493118986> - Online\n**Testing 2** - <:warninghex:535607627045142528> - Degraded Performance\n**Testing 3** - <:errorhex:535607623710408734> - Outage")
-      .setFooter("Refreshs every minute")
-    const m = await client.channels.get(servid).send(statusembed);
-    perm.statusmessage = m.id;
+      .addField("Status", "**CrypticNode - Website** - <:okhex:535607625493118986> - Online\n**CrypticNode - Game Panel** - <:warninghex:535607627045142528> - Degraded Performance\n**CrypticNode - Billing Panel** - <:errorhex:535607623710408734> - Outage")
+      .setFooter("Refreshs every minute - TEST STATUS")
+    client.channels.get(perm.statuspage).send(statusembed);
     save();
   }
 });
