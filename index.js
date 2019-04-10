@@ -197,12 +197,13 @@ client.on('message', async msg => {
     }
     var servid = args[1].match(/\d/g);
     servid = servid.join("");
-    perm.statuspage = servid;
+    perm.statuschannel = servid;
     var statusembed = new Discord.RichEmbed()
       .setColor("#ff7f3f")
       .addField("Status", "**Testing 1** - <:okhex:535607625493118986> - Online\n**Testing 2** - <:warninghex:535607627045142528> - Degraded Performance\n**Testing 3** - <:errorhex:535607623710408734> - Outage")
-      .setFooter("Refreshs every minute - TEST STATUS")
-    client.channels.get(perm.statuspage).send(statusembed);
+      .setFooter("Refreshs every minute")
+    const m = await client.channels.get(servid).send(statusembed);
+    perm.statusmessage = m.id;
     save();
   }
 });
