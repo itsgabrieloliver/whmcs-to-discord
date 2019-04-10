@@ -190,7 +190,9 @@ client.on('message', async msg => {
       return;
     }
     if (!args[1]) {
+      perm.statuspage = null;
       msg.channel.send("<:infohex:535607624608251904> Your Status page has been reset.");
+      save();
       return;
     }
     var servid = args[1].match(/\d/g);
