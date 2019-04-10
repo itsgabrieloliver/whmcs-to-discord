@@ -66,6 +66,7 @@ client.on('message', async msg => {
     const embeded = new Discord.RichEmbed()
       .setAuthor(msg.author.username, msg.author.avatarURL)
       .addField('Verification', 'In order to verify that you are a customer, please send a ticket to the **Verification** Department with the code:\n`' + verifynum + '`\nThen react to this message with a <:okhex:535607625493118986>')
+      .addField('Verification', 'In order to verify that you are a customer, please send a ticket to the **Verification** Department with the **The Subject** as:\n`' + verifynum + '`\nThen react to this message with a <:okhex:535607625493118986>')
       .setFooter('This expires in 5 minutes.')
       .setColor('#5b94ef')
       .setTimestamp();
@@ -92,6 +93,7 @@ client.on('message', async msg => {
       }
       tickett = tickets.tickets.ticket
       var clientid = 40
+      var clientid = 0
       var i = 0
       while (clientid == 0 || tickett.length <= i) {
         if (tickett[i].deptid == 5) {
