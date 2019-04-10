@@ -212,9 +212,6 @@ client.on('message', async msg => {
 
   if(commandIs('hello', msg)) {
     msg.reply('Hello, how are you doing today?');
-    setTimeout(function() {
-    msg.author.send('dont ever fucking say hi to me you cock sucking faggot!');
-    }, 600000);
     return;
   }
 
