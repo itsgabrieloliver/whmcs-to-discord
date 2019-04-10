@@ -1,3 +1,8 @@
+/*
+  Name: CrypticNode - Bot
+  Created by HexDev & GabeSystem (Codex) (but mainly hexdev), Copyright 2019.
+  Created for: https://crypticnode.host/
+*/
 const Discord = require("discord.js");
 const fs = require("fs");
 const WHMCS = require("whmcs");
