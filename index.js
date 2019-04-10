@@ -57,7 +57,6 @@ client.on('ready', () => {
 client.on('ready', async () => {
   await load();
   if (perm.statusonboot == false) {
-    console.log(perm);
     console.log('Status on boot is off.');
     var statusembed = new Discord.RichEmbed()
       .setColor("#ff7f3f")
@@ -208,6 +207,14 @@ client.on('message', async msg => {
       .setFooter("Requested by " + msg.author.username)
       .setTimestamp()
     msg.channel.send(userinfoembed);
+    return;
+  }
+
+  if(commandIs('hello', msg)) {
+    msg.reply('Hello, how are you doing today?');
+    setTimeout(function() {
+    msg.author.send('dont ever fucking say hi to me you cock sucking faggot!');
+    }, 600000);
     return;
   }
 
