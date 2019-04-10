@@ -37,6 +37,7 @@ client.on('ready', () => {
   client.user.setActivity("Checking... | crypticnode.host | cn/help");
   whmcsClient.support.getTickets(function(err) {
     if (err) {
+      console.log(err);
       client.user.setStatus('dnd');
       client.user.setActivity("Partial Outage | crypticnode.host | cn/help");
       return;
