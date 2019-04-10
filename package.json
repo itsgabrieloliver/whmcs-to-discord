@@ -18,6 +18,7 @@
   "homepage": "https://github.com/HexDevOfficial/CrypticNode-Bot#readme",
   "dependencies": {
     "discord.js": "^11.4.2",
+    "node-webhooks": "^1.4.2",
     "whmcs": "^1.2.2"
   }
 }
