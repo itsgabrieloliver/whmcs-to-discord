@@ -83,7 +83,7 @@ client.on('message', async msg => {
     m.edit(`:ping_pong: **Bot** ${m.createdTimestamp - msg.createdTimestamp}ms | **API** ${Math.round(client.ping)}ms`);
   }
 
-  if (commandIs('verify', msg)) {
+ /* if (commandIs('verify', msg)) {
     if (msg.guild) {
         await msg.channel.send('<:infohex:535607624608251904> Please check direct messages I have sent you instructions.');
     }
@@ -117,6 +117,16 @@ client.on('message', async msg => {
         return;
       }
       tickett = tickets.tickets.ticket
+      console.log(tickett)
+      if (!tickett) {
+        const embeded = new Discord.RichEmbed()
+          .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to find your profile.\nDid you:\n- Put the code in the **SUBJECT** instead of the message?\n- Copy the correct code\n- Send to the Verification Department?")
+          .setFooter('If this error continues to show up, contact SysAdmin or Management.')
+          .setColor('#f4424b')
+          .setTimestamp();
+        msg.author.send(embeded);
+        return;
+      }
       var clientid = 0
       var i = 0
       while (clientid == 0 || tickett.length <= i) {
@@ -174,7 +184,7 @@ client.on('message', async msg => {
       });
 
     });
-  }
+  } */
 
   if (commandIs('help', msg)) {
     const helpembed = new Discord.RichEmbed()
