@@ -2,11 +2,11 @@
   Name: CrypticNode - Bot
   Created by HexDev & GabeSystem (Codex) (but mainly hexdev), Copyright 2019.
   Created for: https://crypticnode.host/
+  Version: v2
 */
 const Discord = require("discord.js");
 const fs = require("fs");
 const WHMCS = require("whmcs");
-var WebHooks = require('node-webhooks')
 const whmcsconfig = { username: 'crypticnodebot', password: '213b1228250c04bc77b351182c0b3abd', apiKey: '56oCyD52n7hDVLrg2pkYKkPOEJjHPdim', serverUrl: 'https://payments.crypticnode.host/includes/api.php' };
 const whmcsClient = new WHMCS(whmcsconfig);
 const client = new Discord.Client();
@@ -23,56 +23,11 @@ function commandIs(str, msg) {
   return msg.content.toLowerCase().startsWith(prefix + str);
 }
 
-function load() {
-  var _perm = fs.readFileSync('data.json', 'utf8');
-  perm = JSON.parse(_perm);
-}
-
-function save() {
-  var _perm = JSON.stringify(perm);
-  fs.writeFileSync('data.json', _perm);
-}
 client.on('ready', async () => {
+  // client.user.setActivity("crypticnode.host | cn/help");
+  client.user.setActivity(">~< ignore me pls");
+  client.user.setStatus('dnd');
   console.info(`\nLogged in as ${client.user.tag} as of ${current_time}.`);
-});
-
-client.on('ready', () => {
-  client.user.setActivity("Checking... | crypticnode.host | cn/help");
-  client.user.setStatus('idle');
-  setInterval(function(){
-  client.user.setActivity("Checking... | crypticnode.host | cn/help");
-  whmcsClient.support.getTickets(function(err) {
-    if (err) {
-      console.log(err);
-      client.user.setStatus('dnd');
-      client.user.setActivity("Partial Outage | crypticnode.host | cn/help");
-      return;
-    }
-    client.user.setActivity("crypticnode.host | cn/help");
-    client.user.setStatus('online');
-  });
-  }, 10000);
-});
-
-client.on('ready', async () => {
-  await load();
-  if (perm.statusonboot == false) {
-    console.log('Status on boot is off.');
-    var statusembed = new Discord.RichEmbed()
-      .setColor("#ff7f3f")
-      .addField("Status", "Status has been temporarily disabled.")
-      .setFooter("If this is not intended, contact SysAdmin")
-    client.channels.get(perm.statuschannel).fetchMessage(perm.statusmessage).then(msg => msg.edit(statusembed));
-    return;
-  } else {
-    // <a:loading:505383836172156948>
-    var statusembed = new Discord.RichEmbed()
-      .setColor("#7289DA")
-      .addField("Status", "<a:loading:505383836172156948> Loading Status...")
-      .setFooter("This will take only a few seconds")
-    client.channels.get(perm.statuschannel).fetchMessage(perm.statusmessage).then(msg => msg.edit(statusembed));
-  }
-
 });
 
 client.on('message', async msg => {
@@ -82,109 +37,6 @@ client.on('message', async msg => {
     const m = await msg.channel.send(":ping_pong: Pinging...");
     m.edit(`:ping_pong: **Bot** ${m.createdTimestamp - msg.createdTimestamp}ms | **API** ${Math.round(client.ping)}ms`);
   }
-
- /* if (commandIs('verify', msg)) {
-    if (msg.guild) {
-        await msg.channel.send('<:infohex:535607624608251904> Please check direct messages I have sent you instructions.');
-    }
-    var verifynuminte = Math.round(Math.random()*999999);
-    var verifynum = verifynuminte.toString();
-    const embeded = new Discord.RichEmbed()
-      .setAuthor(msg.author.username, msg.author.avatarURL)
-      .addField('Verification', 'In order to verify that you are a customer, please send a ticket to the **Verification** Department with the **The Subject** as:\n`' + verifynum + '`\nThen react to this message with a <:okhex:535607625493118986>')
-      .setFooter('This expires in 5 minutes.')
-      .setColor('#5b94ef')
-      .setTimestamp();
-    m = await msg.author.send(embeded);
-    await m.react('535607625493118986');
-    const filter = (reaction) => reaction.emoji.id === '535607625493118986'
-    var collect;
-    await m.awaitReactions(filter, {max: 2, time: 300000}).then(collected => collect = collected.array());
-    if (!collect[0]) {
-      msg.author.send("You were inactive or didn't send a ticket for over 5 minutes, so we cancelled your verification");
-      return;
-    }
-    whmcsClient.support.getTickets(async function(err, tickets) {
-      // {email: collect[0].cleanContent}
-      if (err) {
-        console.error('ERROR WHILES ATTEMPTING TO CONNECT TO WHMCS\n' + err);
-        const embeded = new Discord.RichEmbed()
-          .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to connect to the payment panel.\nIt's possible it might be offline right now, or it might be down for maintenance.")
-          .setFooter('If this error continues to show up after 30 minutes, contact SysAdmin or Management.')
-          .setColor('#f4424b')
-          .setTimestamp();
-        msg.author.send(embeded);
-        return;
-      }
-      tickett = tickets.tickets.ticket
-      console.log(tickett)
-      if (!tickett) {
-        const embeded = new Discord.RichEmbed()
-          .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to find your profile.\nDid you:\n- Put the code in the **SUBJECT** instead of the message?\n- Copy the correct code\n- Send to the Verification Department?")
-          .setFooter('If this error continues to show up, contact SysAdmin or Management.')
-          .setColor('#f4424b')
-          .setTimestamp();
-        msg.author.send(embeded);
-        return;
-      }
-      var clientid = 0
-      var i = 0
-      while (clientid == 0 || tickett.length <= i) {
-        if (tickett[i].deptid == 5) {
-          if (tickett[i].subject == verifynum) {
-            clientid = await tickett[i].userid;
-          }
-        }
-        i = i + 1
-      }
-      if (clientid == 0) {
-        const embeded = new Discord.RichEmbed()
-          .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to find your profile.\nDid you:\n- Put the code in the **SUBJECT** instead of the message?\n- Copy the correct code\n- Send to the Verification Department?")
-          .setFooter('If this error continues to show up, contact SysAdmin or Management.')
-          .setColor('#f4424b')
-          .setTimestamp();
-        msg.author.send(embeded);
-        return;
-      }
-      whmcsClient.customers.getCustomer(clientid, async function(err, data) {
-        if (err) {
-          const embeded = new Discord.RichEmbed()
-            .addField('<:errorhex:535607623710408734> Error', "Sorry. There was an Error whiles attempting to connect to the payment panel.\nIt's possible it might be offline right now, or it might be down for maintenance.")
-            .setFooter('If this error continues to show up after 30 minutes, contact SysAdmin or Management.')
-            .setColor('#f4424b')
-            .setTimestamp();
-          msg.author.send(embeded);
-          return;
-        }
-        const embeded = new Discord.RichEmbed()
-          .addField(`Is this you, ${data.firstname}?`, `Full Name: ${data.fullname}\nEmail: ${data.email}\nPhone Number: ${data.phonenumberformatted}`)
-          .setFooter("If this isn't you please deny this and contact SysAdmin.")
-          .setColor('#5b94ef')
-          .setTimestamp();
-        var m = await msg.author.send(embeded);
-        await m.react('535607625493118986');
-        await m.react('535607623710408734');
-        const filter = (reaction) => reaction.emoji.id === '535607625493118986'|'535607623710408734'
-        await m.awaitReactions(filter, {max: 2, time: 30000}).then(collected => collect = collected.array());
-        console.log(collect);
-        var i = 1
-        if (!collect[1]) {
-          i = 0
-        }
-        if (collect[i].emoji.id == 535607625493118986) {
-          const embededed = new Discord.RichEmbed()
-            .addField(`Hello there, ${data.firstname}!`, `You've been successfully verified.`)
-            .setFooter("Your `Verified` Rank has been added.")
-            .setColor('#42f483')
-            .setTimestamp();
-          msg.author.send(embededed);
-        } else {
-          msg.channel.send("Our Auto-Verification system ran into an error and couldn't find you. Go ahead and open a ticket in the Verification Department, or ask on Discord to be added.");
-        }
-      });
-
-    });
-  } */
 
   if (commandIs('help', msg)) {
     const helpembed = new Discord.RichEmbed()
@@ -220,32 +72,6 @@ client.on('message', async msg => {
     return;
   }
 
-  if(commandIs('hello', msg)) {
-    msg.reply('Hello, how are you doing today?');
-    return;
-  }
-
-  if (commandIs('setstatuspage', msg)) {
-    if (!msg.author.id == 189400912333111297) {
-      msg.channel.send("<:errorhex:535607623710408734> You don't have permission to use this command.");
-      return;
-    }
-    if (!args[1]) {
-      perm.statuspage = null;
-      msg.channel.send("<:infohex:535607624608251904> Your Status page has been reset.");
-      save();
-      return;
-    }
-    var servid = args[1].match(/\d/g);
-    servid = servid.join("");
-    perm.statuschannel = servid;
-    var statusembed = new Discord.RichEmbed()
-      .setColor("#ff7f3f")
-      .addField("Status", "**CrypticNode - Website** - <:okhex:535607625493118986> - Online\n**CrypticNode - Game Panel** - <:warninghex:535607627045142528> - Degraded Performance\n**CrypticNode - Billing Panel** - <:errorhex:535607623710408734> - Outage")
-      .setFooter("Refreshs every minute - TEST STATUS")
-    client.channels.get(perm.statuspage).send(statusembed);
-    save();
-  }
-});
+}); // END
 
 client.login(config.token);
