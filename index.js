@@ -7,6 +7,7 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const WHMCS = require("whmcs");
+var mysql = require('mysql');
 const whmcsconfig = { username: 'crypticnodebot', password: '213b1228250c04bc77b351182c0b3abd', apiKey: '56oCyD52n7hDVLrg2pkYKkPOEJjHPdim', serverUrl: 'https://payments.crypticnode.host/includes/api.php' };
 const whmcsClient = new WHMCS(whmcsconfig);
 const client = new Discord.Client();
@@ -16,6 +17,15 @@ var temp = {};
 var date = new Date();
 var current_date = date.getUTCDate();
 var current_time = `${date.getUTCHours()}:${date.getUTCMinutes()}`;
+
+var sql = mysql.createConnection({
+  host     : '66.70.180.119',
+  user     : 'u56_dvZPDvCrjh',
+  password : 'OTQNcpOLJvGgbpFCllX2',
+  database : 's56_cn_bot'
+});
+
+sql.connect().catch(console.error);
 
 var prefix = 'cn/';
 
