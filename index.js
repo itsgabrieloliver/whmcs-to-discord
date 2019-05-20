@@ -19,13 +19,13 @@ var current_date = date.getUTCDate();
 var current_time = `${date.getUTCHours()}:${date.getUTCMinutes()}`;
 
 var sql = mysql.createConnection({
-  host     : '66.70.180.119',
-  user     : 'u56_dvZPDvCrjh',
-  password : 'OTQNcpOLJvGgbpFCllX2',
+  host     : '140.82.11.153',
+  user     : 'u56_05R9ijqrFU',
+  password : '39TW6qYl9pzhiS8i',
   database : 's56_cn_bot'
 });
 
-sql.connect().catch(console.error);
+sql.connect();
 
 var prefix = 'cn/';
 
