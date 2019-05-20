@@ -1,7 +1,7 @@
 /*
-  Name: CrypticNode - Bot
-  Created by HexDev & GabeSystem (Codex) (but mainly hexdev), Copyright 2019.
-  Created for: https://crypticnode.host/
+  Name: CrypticNode - Verification Site
+  Created by HexDev, Copyright 2019 (You must ask for permission before you can use this for commercial services).
+  Created for: https://crypticnode.host/ & Optionally other sites
   Version: v2
 */
 const Discord = require("discord.js");
