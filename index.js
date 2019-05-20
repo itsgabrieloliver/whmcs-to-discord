@@ -27,6 +27,15 @@ var sql = mysql.createConnection({
 
 sql.connect();
 
+sql.on('connect', () => {
+  console.log('Connected to MySQL successfully');
+});
+
+sql.on('error', (err) => {
+  console.error('MySQL Errored:');
+  console.error(err);
+});
+
 var prefix = 'cn/';
 
 function commandIs(str, msg) {
