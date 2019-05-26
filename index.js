@@ -28,11 +28,11 @@ var sql = mysql.createConnection({
 sql.connect();
 
 sql.on('connect', () => {
-  console.log('Connected to MySQL successfully');
+  console.log('\nConnected to MySQL successfully');
 });
 
 sql.on('error', (err) => {
-  console.error('MySQL Errored:');
+  console.error('\nMySQL Errored:');
   console.error(err);
 });
 
