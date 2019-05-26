@@ -6,7 +6,7 @@
 */
 const Discord = require("discord.js");
 const fs = require("fs");
-const WHMCS = require("whmcs");
+const WHMCS = require("whmcs-js");
 var mysql = require('mysql');
 const whmcsconfig = { username: 'crypticnodebot', password: '213b1228250c04bc77b351182c0b3abd', apiKey: '56oCyD52n7hDVLrg2pkYKkPOEJjHPdim', serverUrl: 'https://payments.crypticnode.host/includes/api.php' };
 const whmcsClient = new WHMCS(whmcsconfig);
