@@ -57,6 +57,22 @@ client.on('message', async msg => {
     m.edit(`:ping_pong: **Bot** ${m.createdTimestamp - msg.createdTimestamp}ms | **API** ${Math.round(client.ping)}ms`);
   }
 
+  if (commandIs('verify', msg)) {
+    const m = await msg.author.send("Generating your Auth token...");
+    var _link = "http://verify.crypticnode.host/error"
+
+    
+    var verifyembed = new Discord.RichEmbed()
+      .setAuthor(msg.author.username, msg.author.avatarURL)
+      .setDescription("This displays some basic information regarding your user.")
+      .setColor("#991818")
+      .addField("General", "**Username** - " + msg.author.username + "\n" + "**ID** - " + msg.author.id, true)
+      .addField("Link", `[Click here](${_link})`)
+      .setFooter("Requested by " + msg.author.username)
+      .setTimestamp()
+    m.edit(verifyembed);
+  }
+
   if (commandIs('help', msg)) {
     const helpembed = new Discord.RichEmbed()
       .setAuthor(msg.author.username, msg.author.avatarURL)
