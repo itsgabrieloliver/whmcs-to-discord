@@ -17,9 +17,12 @@
   },
   "homepage": "https://github.com/HexDevOfficial/CrypticNode-Bot#readme",
   "dependencies": {
-    "discord.js": "^11.4.2",
+    "discord.js": "^11.5.1",
     "mysql": "^2.17.1",
     "node-webhooks": "^1.4.2",
     "whmcs": "^1.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.0.1"
   }
 }

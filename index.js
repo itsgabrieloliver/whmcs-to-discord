@@ -42,8 +42,19 @@ function commandIs(str, msg) {
   return msg.content.toLowerCase().startsWith(prefix + str);
 }
 
+function load() {
+  var _perm = fs.readFileSync('data.json', 'utf8');
+  perm = JSON.parse(_perm);
+}
+
+function save() {
+  var _perm = JSON.stringify(perm);
+  fs.writeFileSync('data.json', _perm);
+}
+
 client.on('ready', async () => {
   // client.user.setActivity("crypticnode.host | cn/help");
+  load();
   client.user.setActivity(">~< ignore me pls");
   client.user.setStatus('dnd');
   console.info(`\nLogged in as ${client.user.tag} as of ${current_time}.`);
@@ -51,10 +62,44 @@ client.on('ready', async () => {
 
 client.on('message', async msg => {
   var args = msg.content.split(/[ ]+/);
+
+  if (msg.content === 'opt out') {
+    if (msg.channel.type === 'dm') {
+      perm.cannopt[msg.author.id] = true;
+      await save();
+      msg.channel.send("Successfully opted you out of DM announcements");
+    }
+  }
+
+  if (msg.content === 'opt in') {
+    if (msg.channel.type === 'dm') {
+      perm.cannopt[msg.author.id] = false;
+      await save();
+      msg.channel.send("Successfully opted you in to DM announcements");
+    }
+  } 
   
   if (commandIs('ping', msg)) {
     const m = await msg.channel.send(":ping_pong: Pinging...");
     m.edit(`:ping_pong: **Bot** ${m.createdTimestamp - msg.createdTimestamp}ms | **API** ${Math.round(client.ping)}ms`);
+  }
+
+  if (commandIs('cannounce', msg)) {
+    var members = client.guilds.get('509922203865710622').roles.get('594798537405890570').members;
+    args.shift();
+    var words = args.join(' ');
+    // members.size members[i].value.id
+    for (var i = 1; i <= members.size; i++) {
+      if (perm.cannopt[members.array()[i-1].id] == false) {
+        var cannounceembed = new Discord.RichEmbed()
+          .setAuthor("", msg.author.avatarURL)
+          .setColor("#169cdd")
+          .addField(`Announcement by ${msg.author.username}`, words, true)
+          .setFooter("If you wish to opt-out, just type in 'opt out'")
+          .setTimestamp()
+        client.users.get(members.array()[i-1].id).send(cannounceembed);
+      }
+    }
   }
 
   if (commandIs('verify', msg)) {
