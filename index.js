@@ -89,12 +89,16 @@ client.on('message', async msg => {
       msg.channel.send('You dont have permision to use this command.');
       return;
     }
-    var members = client.guilds.get('509922203865710622').roles.get('594798537405890570').members;
+    var members = client.guilds.get('509922203865710622').roles.get('564287766083403776').members;
     args.shift();
     var words = args.join(' ');
-    // members.size members[i].value.id
+    console.log(members);
     for (var i = 1; i <= members.size; i++) {
-      if (perm.cannopt[members.array()[i-1].id] == false) {
+      if (perm.cannopt[members.array()[i-1].id] == null) {
+        perm.cannopt[members.array()[i-1].id] = false;
+      }
+      if (perm.cannopt[members.array()[i-1].id] != true) {
+        console.log(members.array()[i-1].id);
         var cannounceembed = new Discord.RichEmbed()
           .setAuthor("", msg.author.avatarURL)
           .setColor("#169cdd")
@@ -119,8 +123,8 @@ client.on('message', async msg => {
       .addField("Link", `[Click here](${_link})`)
       .setFooter("Requested by " + msg.author.username)
       .setTimestamp()
-    m.edit(verifyembed);
-  }
+    m.edit(verifyembed); */
+  } 
 
   if (commandIs('help', msg)) {
     const helpembed = new Discord.RichEmbed()
