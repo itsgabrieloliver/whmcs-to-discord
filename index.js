@@ -85,6 +85,10 @@ client.on('message', async msg => {
   }
 
   if (commandIs('cannounce', msg)) {
+    if (!msg.member.hasPermission("MENTION_EVERYONE")) {
+      msg.channel.send('You dont have permision to use this command.');
+      return;
+    }
     var members = client.guilds.get('509922203865710622').roles.get('594798537405890570').members;
     args.shift();
     var words = args.join(' ');
