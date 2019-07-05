@@ -110,6 +110,25 @@ client.on('message', async msg => {
     }
   }
 
+  if (commandIs('t new', msg)) {
+    const filter  = (msgg) => msgg.author.id == msg.author.id
+    const id = await msg.channel.send('Whats the Topic?');
+    var topic;
+    await msg.channel.awaitMessages(filter, {max: 1, time: 10000}).then(collected => {
+      console.log(collected);
+      topic = collected.array()[0].cleanContent;
+    });
+    id.delete();
+    i = msg.author.id.split('');
+    i = i.slice(0, 4);
+    i = i.join();
+    msg.guild.createChannel(`ticket${i}-open`, {type: 'text', parent: '589821685671133197', topic: `Support Ticket for: ${msg.author.username}. Topic: ${topic}`}).then(channel => {
+      channel.overwritePermissions(msg.author.id, {SEND_MESSAGES: true});
+      channel.id
+    });
+    // .createChannel(`ticket-${i}`, {type: 'text', topic: `This is the ticket channel for ${msg.author.username}`, parent: '589821685671133197'});
+  }
+
   if (commandIs('verify', msg)) {
     const m = await msg.author.send("Generating your Auth token...");
     var _link = "http://verify.crypticnode.host/error"
