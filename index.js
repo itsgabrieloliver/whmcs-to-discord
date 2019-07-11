@@ -130,7 +130,8 @@ client.on('message', async msg => {
   }
 
   if (commandIs('verify', msg)) {
-    const m = await msg.author.send("Generating your Auth token...");
+    msg.channel.send('Verification is not available at the moment.\nThis feature will be available later on.');
+   /* const m = await msg.author.send("Generating your Auth token...");
     var _link = "http://verify.crypticnode.host/error"
 
     
